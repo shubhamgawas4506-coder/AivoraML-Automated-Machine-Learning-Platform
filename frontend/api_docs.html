@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080809">
+  <meta name="description" content="AivoraML API reference, endpoint analytics, request contracts, and integration guidance.">
+  <title>AivoraML API — Reference and analytics</title>
+  <link rel="stylesheet" href="/static/api_docs.css">
+</head>
+<body>
+  <div class="page-glow page-glow-one" aria-hidden="true"></div>
+  <div class="page-glow page-glow-two" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="AivoraML home">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="brand-name">aivora<span>ml</span></span>
+      <span class="brand-divider"></span>
+      <span class="brand-product">API</span>
+    </a>
+    <nav class="topnav" aria-label="API documentation">
+      <a href="#overview">Overview</a>
+      <a href="#architecture">Lifecycle</a>
+      <a href="#reference">Reference</a>
+      <a href="#errors">Errors</a>
+    </nav>
+    <div class="top-actions">
+      <a class="spec-link" href="/openapi.json" target="_blank" rel="noreferrer">OpenAPI JSON</a>
+      <a class="workspace-link" href="/app">
+        Open workspace
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <div class="docs-shell">
+    <aside class="docs-sidebar">
+      <div class="sidebar-section">
+        <span class="sidebar-label">Get started</span>
+        <a class="sidebar-link active" href="#overview"><i></i>API overview</a>
+        <a class="sidebar-link" href="#architecture"><i></i>Request lifecycle</a>
+        <a class="sidebar-link" href="#reference"><i></i>Endpoint reference</a>
+      </div>
+      <div class="sidebar-section">
+        <span class="sidebar-label">Understand</span>
+        <a class="sidebar-link" href="#project-scope"><i></i>Project scope</a>
+        <a class="sidebar-link" href="#errors"><i></i>Error contracts</a>
+      </div>
+      <div class="sidebar-section">
+        <span class="sidebar-label">API domains</span>
+        <div id="domainNavigation" class="domain-navigation">
+          <span class="sidebar-loading">Reading live contract…</span>
+        </div>
+      </div>
+      <div class="sidebar-status">
+        <span class="status-indicator" id="sidebarStatusDot"></span>
+        <div>
+          <strong id="sidebarStatus">Connecting</strong>
+          <small id="sidebarVersion">Contract unavailable</small>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <section class="hero-section" id="overview">
+        <div class="hero-copy">
+          <div class="eyebrow"><span></span> Developer platform</div>
+          <h1>Build on the<br><em>AivoraML API.</em></h1>
+          <p>Profile datasets, orchestrate machine-learning workflows, run fitted predictions, and retrieve verified artifacts through one project-aware interface.</p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#reference">Explore endpoints</a>
+            <button class="copy-base-url" id="copyBaseUrl" type="button">
+              <span class="copy-label">Base URL</span>
+              <code id="baseUrl">http://127.0.0.1:8000</code>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="contract-card">
+          <div class="contract-card-head">
+            <span>Contract status</span>
+            <span class="live-pill"><i></i> Live schema</span>
+          </div>
+          <div class="contract-visual" aria-hidden="true">
+            <span class="contract-orbit orbit-one"></span>
+            <span class="contract-orbit orbit-two"></span>
+            <span class="contract-core">
+              <span class="brand-mark large"><i></i><i></i><i></i></span>
+            </span>
+            <span class="contract-node node-one"></span>
+            <span class="contract-node node-two"></span>
+            <span class="contract-node node-three"></span>
+          </div>
+          <div class="contract-meta">
+            <div><span>Specification</span><strong>OpenAPI 3</strong></div>
+            <div><span>Transport</span><strong>HTTPS / JSON</strong></div>
+            <div><span>Mode</span><strong>Project scoped</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="analytics-section" aria-labelledby="analyticsTitle">
+        <div class="section-heading compact">
+          <div>
+            <span class="section-kicker">Live contract analytics</span>
+            <h2 id="analyticsTitle">The API at a glance</h2>
+          </div>
+          <span class="updated-label" id="contractUpdated">Reading /openapi.json</span>
+        </div>
+        <div class="metric-grid">
+          <article class="metric-card">
+            <div class="metric-icon metric-violet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h8M8 12h8M8 18h8"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg></div>
+            <span>Operations</span>
+            <strong id="operationCount">—</strong>
+            <small>Documented API actions</small>
+          </article>
+          <article class="metric-card">
+            <div class="metric-icon metric-green"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h7"/></svg></div>
+            <span>Read endpoints</span>
+            <strong id="readCount">—</strong>
+            <small>Safe GET operations</small>
+          </article>
+          <article class="metric-card">
+            <div class="metric-icon metric-blue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18"/></svg></div>
+            <span>Workflow actions</span>
+            <strong id="writeCount">—</strong>
+            <small>POST operations</small>
+          </article>
+          <article class="metric-card">
+            <div class="metric-icon metric-amber"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h6v6H4zM14 6h6v6h-6zM4 16h6M14 16h6"/></svg></div>
+            <span>API domains</span>
+            <strong id="domainCount">—</strong>
+            <small>Organized capabilities</small>
+          </article>
+        </div>
+        <div class="analytics-grid">
+          <article class="analytics-card">
+            <div class="card-heading">
+              <div>
+                <span>Method distribution</span>
+                <strong>Operations by request type</strong>
+              </div>
+              <span class="quiet-badge">Live</span>
+            </div>
+            <div class="method-bar" id="methodBar" aria-label="API method distribution"></div>
+            <div class="method-legend" id="methodLegend"></div>
+          </article>
+          <article class="analytics-card">
+            <div class="card-heading">
+              <div>
+                <span>Capability coverage</span>
+                <strong>Operations by domain</strong>
+              </div>
+            </div>
+            <div class="domain-bars" id="domainBars">
+              <span class="inline-loading">Preparing analytics…</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-section" id="architecture">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Predictable by design</span>
+            <h2>A clear request lifecycle</h2>
+          </div>
+          <p>Each operation resolves the active project, validates its contract, executes locally, and returns either verified data or a structured error.</p>
+        </div>
+        <div class="lifecycle">
+          <article>
+            <span class="step-number">01</span>
+            <div class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4-4 4 4M9 8v9M15 7h4v10h-4"/></svg></div>
+            <h3>Send request</h3>
+            <p>Use JSON for workflow actions or multipart form data for dataset uploads.</p>
+          </article>
+          <span class="flow-line" aria-hidden="true"><i></i></span>
+          <article>
+            <span class="step-number">02</span>
+            <div class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 7v5c0 4.6 2.9 7.2 7 9 4.1-1.8 7-4.4 7-9V7zM9 12l2 2 4-4"/></svg></div>
+            <h3>Validate scope</h3>
+            <p>AivoraML checks request shape, project identity, and artifact ownership.</p>
+          </article>
+          <span class="flow-line" aria-hidden="true"><i></i></span>
+          <article>
+            <span class="step-number">03</span>
+            <div class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17 9 12l4 3 7-8M16 7h4v4"/></svg></div>
+            <h3>Execute workflow</h3>
+            <p>The fitted pipeline and project state drive profiling, training, or prediction.</p>
+          </article>
+          <span class="flow-line" aria-hidden="true"><i></i></span>
+          <article>
+            <span class="step-number">04</span>
+            <div class="step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5zM8 9h8M8 13h5"/></svg></div>
+            <h3>Receive contract</h3>
+            <p>Responses use documented JSON schemas or verified downloadable files.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="scope-section" id="project-scope">
+        <div class="scope-copy">
+          <span class="section-kicker">Project-aware operations</span>
+          <h2>One active project.<br>Consistent artifact ownership.</h2>
+          <p>The local workspace maintains an active project context. Routes that read generated notebooks, reports, models, or metrics accept a project identifier and reject access when that identifier does not own the artifact.</p>
+          <div class="scope-points">
+            <span><i></i>Project identifiers are validated before resolution</span>
+            <span><i></i>Download routes verify existence and non-empty content</span>
+            <span><i></i>Errors return safe codes without leaking server paths</span>
+          </div>
+        </div>
+        <div class="code-window" aria-label="Example API request">
+          <div class="code-window-head">
+            <div><i></i><i></i><i></i></div>
+            <span>prediction-request.sh</span>
+            <button type="button" data-copy-target="scopeCode">Copy</button>
+          </div>
+          <pre id="scopeCode"><code><span class="code-dim">curl</span> <span class="code-method">-X POST</span> \
+  <span class="code-string">"$AIVORAML_URL/api/predict"</span> \
+  -H <span class="code-string">"Content-Type: application/json"</span> \
+  -d <span class="code-string">'{
+    "values": {
+      "tenure": 29,
+      "monthly_charges": 70.35
+    }
+  }'</span></code></pre>
+          <div class="code-response"><span>200</span><code>{"prediction": "retained", "confidence": 0.91}</code></div>
+        </div>
+      </section>
+
+      <section class="reference-section" id="reference">
+        <div class="section-heading reference-heading">
+          <div>
+            <span class="section-kicker">Live endpoint reference</span>
+            <h2>Explore the API surface</h2>
+          </div>
+          <p>Generated from the running application contract, then organized for human scanning.</p>
+        </div>
+        <div class="reference-toolbar">
+          <label class="search-box">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+            <span class="sr-only">Search endpoints</span>
+            <input id="endpointSearch" type="search" placeholder="Search paths, capabilities, or descriptions">
+            <kbd>/</kbd>
+          </label>
+          <div class="method-filters" id="methodFilters" aria-label="Filter by HTTP method">
+            <button class="active" type="button" data-method="ALL">All</button>
+            <button type="button" data-method="GET">GET</button>
+            <button type="button" data-method="POST">POST</button>
+            <button type="button" data-method="DELETE">DELETE</button>
+          </div>
+        </div>
+        <div class="reference-layout">
+          <div class="endpoint-list" id="endpointList" aria-live="polite">
+            <div class="reference-loading">
+              <span class="loading-ring"></span>
+              <strong>Reading the API contract</strong>
+              <small>Organizing endpoints and response schemas…</small>
+            </div>
+          </div>
+          <aside class="reference-insight">
+            <span class="insight-kicker">Reference guide</span>
+            <h3>Reading an endpoint</h3>
+            <dl>
+              <div><dt><span class="mini-method get">GET</span></dt><dd>Reads project state or downloads an artifact.</dd></div>
+              <div><dt><span class="mini-method post">POST</span></dt><dd>Starts a workflow or processes submitted data.</dd></div>
+              <div><dt><code>project_id</code></dt><dd>Scopes generated artifacts to their owning project.</dd></div>
+              <div><dt><code>422</code></dt><dd>The request did not match the documented contract.</dd></div>
+            </dl>
+            <a href="/openapi.json" target="_blank" rel="noreferrer">Inspect machine-readable schema <span>↗</span></a>
+          </aside>
+        </div>
+      </section>
+
+      <section class="errors-section" id="errors">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Structured failure states</span>
+            <h2>Errors you can act on</h2>
+          </div>
+          <p>Non-success responses include an HTTP status and a concise detail. Artifact failures may also include a stable application error code.</p>
+        </div>
+        <div class="error-grid">
+          <article><span class="error-code">400</span><div><h3>Invalid request</h3><p>The payload is syntactically valid but cannot be applied to the current workflow.</p></div></article>
+          <article><span class="error-code">403</span><div><h3>Project access denied</h3><p>The requested project does not own the active artifact or workspace state.</p></div></article>
+          <article><span class="error-code">404</span><div><h3>Resource unavailable</h3><p>The project, model, report, notebook, or requested file does not exist.</p></div></article>
+          <article><span class="error-code">422</span><div><h3>Contract mismatch</h3><p>A field, query value, or request body failed schema validation.</p></div></article>
+          <article><span class="error-code">500</span><div><h3>Workflow failed safely</h3><p>Generation or execution failed and returned a sanitized diagnostic code.</p></div></article>
+          <article class="error-example">
+            <div class="error-example-head"><span>Example error</span><code>application/json</code></div>
+            <pre><code>{
+  <span>"detail"</span>: {
+    <span>"code"</span>: <em>"ARTIFACT_FILE_MISSING"</em>,
+    <span>"message"</span>: <em>"The requested artifact is unavailable."</em>
+  }
+}</code></pre>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <a class="brand footer-brand" href="/">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="brand-name">aivora<span>ml</span></span>
+    </a>
+    <p>Local-first machine learning infrastructure with inspectable contracts.</p>
+    <div><a href="/app">Workspace</a><a href="/openapi.json">OpenAPI</a><a href="#overview">Back to top</a></div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard</div>
+  <script src="/static/api_docs.js" defer></script>
+</body>
+</html>

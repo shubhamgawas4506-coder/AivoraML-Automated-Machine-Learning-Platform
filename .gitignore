@@ -1,0 +1,77 @@
+# Environment variables (contains API keys)
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook
+.ipynb_checkpoints
+notebooks/generated/*
+!notebooks/generated/.gitkeep
+
+# Model files
+*.joblib
+*.pkl
+*.h5
+*.pth
+
+# Data files (optional - comment out if you want to track them)
+*.csv
+*.xlsx
+*.parquet
+*.json
+
+# Logs
+*.log
+
+# Runtime and generated project content
+storage/*
+!storage/.gitkeep
+models/*
+!models/.gitkeep
+outputs/*
+!outputs/.gitkeep
+reports/*
+!reports/.gitkeep
+data/*
+!data/.gitkeep
