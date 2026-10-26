@@ -1722,6 +1722,10 @@
 
         <div class="workspace-preview-wrap" aria-label="Illustration of the AivoraML project workflow">
           <div class="preview-orbit" aria-hidden="true"></div>
+          <div class="hero-signal hero-signal-one" aria-hidden="true"><span></span><i></i><b></b></div>
+          <div class="hero-signal hero-signal-two" aria-hidden="true"><span></span><i></i><b></b></div>
+          <div class="hero-coordinate coordinate-one" aria-hidden="true">x: 0.82 · signal</div>
+          <div class="hero-coordinate coordinate-two" aria-hidden="true">cv · verified</div>
           <div class="hero-float float-one" aria-hidden="true"><i></i><div><strong>Pipeline verified</strong><span>Leakage-safe CV</span></div></div>
           <div class="hero-float float-two" aria-hidden="true"><i></i><div><strong>Artifacts ready</strong><span>Notebook · PDF · Model</span></div></div>
           <div class="workspace-preview">
@@ -1809,6 +1813,57 @@
             <h3>Take the work with you</h3>
             <p>Download the fitted model pipeline and generated notebook after a successful run for review outside AivoraML.</p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="model-stage" aria-labelledby="model-stage-title">
+      <div class="container model-stage-layout">
+        <div class="model-stage-copy">
+          <span class="eyebrow">A system, not a black box</span>
+          <h2 id="model-stage-title">A model workspace you can actually read.</h2>
+          <p>Each run keeps the data contract, validation strategy, candidate comparison, and final artifact in view—so every result has a trail back to the decisions behind it.</p>
+          <div class="model-selector" role="tablist" aria-label="Model workflow stages">
+            <button class="model-selector-button active" type="button" role="tab" aria-selected="true" data-model-stage="profile">Profile</button>
+            <button class="model-selector-button" type="button" role="tab" aria-selected="false" data-model-stage="compare">Compare</button>
+            <button class="model-selector-button" type="button" role="tab" aria-selected="false" data-model-stage="explain">Explain</button>
+          </div>
+          <div class="model-stage-note" aria-live="polite">
+            <span class="model-stage-note-label">Active layer</span>
+            <strong id="modelStageTitle">Profile the evidence</strong>
+            <p id="modelStageCopy">Map types, missingness, cardinality, and target candidates before model choices enter the picture.</p>
+          </div>
+        </div>
+
+        <div class="model-constellation" data-model-constellation>
+          <div class="constellation-grid" aria-hidden="true"></div>
+          <div class="constellation-axis axis-x" aria-hidden="true"><span>observed</span><i></i></div>
+          <div class="constellation-axis axis-y" aria-hidden="true"><span>validated</span><i></i></div>
+          <div class="constellation-line line-one" aria-hidden="true"></div>
+          <div class="constellation-line line-two" aria-hidden="true"></div>
+          <article class="constellation-card card-profile active" data-model-card="profile">
+            <span class="constellation-card-index">01</span>
+            <span class="constellation-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg></span>
+            <span>Schema map</span><strong>13 fields</strong>
+          </article>
+          <article class="constellation-card card-compare" data-model-card="compare">
+            <span class="constellation-card-index">02</span>
+            <span class="constellation-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 18 9 12l4 3 8-9"/></svg></span>
+            <span>Candidate lab</span><strong>7 models</strong>
+          </article>
+          <article class="constellation-card card-explain" data-model-card="explain">
+            <span class="constellation-card-index">03</span>
+            <span class="constellation-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7v5l3 2"/></svg></span>
+            <span>Decision trace</span><strong>Ready to inspect</strong>
+          </article>
+          <div class="constellation-core" aria-hidden="true">
+            <span class="constellation-core-ring ring-a"></span>
+            <span class="constellation-core-ring ring-b"></span>
+            <span class="constellation-core-mark"><i></i><i></i><i></i></span>
+            <span class="constellation-pulse"></span>
+          </div>
+          <span class="constellation-caption caption-top" aria-hidden="true">input contract</span>
+          <span class="constellation-caption caption-bottom" aria-hidden="true">reproducible output</span>
         </div>
       </div>
     </section>

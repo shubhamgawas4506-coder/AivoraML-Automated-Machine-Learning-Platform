@@ -178,6 +178,7 @@
     if (reducedMotion.matches || !finePointer.matches) return;
     const tiltSelector = [
       ".workspace-preview",
+      ".model-constellation",
     ].join(",");
 
     document.addEventListener("pointermove", (event) => {
@@ -186,7 +187,7 @@
       const bounds = surface.getBoundingClientRect();
       const horizontal = (event.clientX - bounds.left) / bounds.width - 0.5;
       const vertical = (event.clientY - bounds.top) / bounds.height - 0.5;
-      const strength = surface.classList.contains("workspace-preview") ? 3.2 : 1.2;
+      const strength = surface.classList.contains("workspace-preview") ? 3.2 : 1.8;
       surface.classList.add("tilt-surface");
       surface.style.setProperty("--tilt-x", `${(-vertical * strength).toFixed(2)}deg`);
       surface.style.setProperty("--tilt-y", `${(horizontal * strength).toFixed(2)}deg`);
@@ -201,6 +202,48 @@
       surface.style.setProperty("--tilt-x", "0deg");
       surface.style.setProperty("--tilt-y", "0deg");
       surface.style.setProperty("--lift", "0px");
+    });
+  }
+
+  function initializeModelStage() {
+    const stage = document.querySelector("[data-model-constellation]");
+    const buttons = [...document.querySelectorAll("[data-model-stage]")];
+    if (!stage || !buttons.length) return;
+
+    const content = {
+      profile: {
+        title: "Profile the evidence",
+        copy: "Map types, missingness, cardinality, and target candidates before model choices enter the picture.",
+      },
+      compare: {
+        title: "Compare on the same ground",
+        copy: "Evaluate compatible candidates against a shared validation plan and keep the champion selection legible.",
+      },
+      explain: {
+        title: "Trace the final decision",
+        copy: "Inspect performance, feature signals, and exportable artifacts without losing the original project context.",
+      },
+    };
+
+    const applyStage = (name) => {
+      const selected = content[name] || content.profile;
+      stage.dataset.activeStage = name;
+      buttons.forEach((button) => {
+        const active = button.dataset.modelStage === name;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", String(active));
+      });
+      document.querySelectorAll("[data-model-card]").forEach((card) => {
+        card.classList.toggle("active", card.dataset.modelCard === name);
+      });
+      const title = document.getElementById("modelStageTitle");
+      const copy = document.getElementById("modelStageCopy");
+      if (title) title.textContent = selected.title;
+      if (copy) copy.textContent = selected.copy;
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => applyStage(button.dataset.modelStage));
     });
   }
 
@@ -230,4 +273,5 @@
   initializeReveal();
   initializePointerPhysics();
   initializeMagneticActions();
+  initializeModelStage();
 })();

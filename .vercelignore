@@ -1,0 +1,24 @@
+# Version control and environments
+.git/
+.env
+.env.local
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+
+# Heavy local artifacts and outputs (>400 MB)
+outputs/
+models/
+storage/
+reports/
+notebooks/
+data/
+assets/qa-*.png
+
+# Testing and docs
+tests/
+docs/
+.pytest_cache/
+*.log

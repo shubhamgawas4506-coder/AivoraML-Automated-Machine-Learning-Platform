@@ -34,7 +34,6 @@ import joblib
 import nbformat
 import numpy as np
 import pandas as pd
-import pdfplumber
 from jupyter_client.kernelspec import NoSuchKernel
 from nbclient.exceptions import CellExecutionError, CellTimeoutError, DeadKernelError
 from nbconvert import HTMLExporter
@@ -575,10 +574,10 @@ def generate_report_bundle(
             result=safe_result,
             chart_paths=charts,
         )
-        if len(PdfReader(str(pdf_path)).pages) < 1:
+        reader = PdfReader(str(pdf_path))
+        if len(reader.pages) < 1:
             raise ReportVerificationError("PDF report has no pages.")
-        with pdfplumber.open(pdf_path) as pdf:
-            text = "\n".join(page.extract_text() or "" for page in pdf.pages)
+        text = "\n".join(page.extract_text() or "" for page in reader.pages)
         if not _pdf_text_has_required_sections(text):
             raise ReportVerificationError(
                 "PDF report failed content verification."
