@@ -60,6 +60,7 @@ notebooks/generated/*
 *.xlsx
 *.parquet
 *.json
+!vercel.json
 
 # Logs
 *.log

@@ -29,47 +29,94 @@ from dotenv import load_dotenv
 from starlette.concurrency import run_in_threadpool
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from .schemas import AssistantChatRequest, PredictionRequest, TrainingJobRequest
-from .services.dataset_profiler import profile_dataset, check_class_imbalance
-from .services.ml_engine_enhanced import WorkflowCancelled, run_enhanced_workflow
-from .services.eda_generator import generate_comprehensive_eda
-from .services.ai_advisor import get_ai_advisor
-from .services.ai_assistant import (
-    AssistantUnavailable,
-    assistant_status,
-    get_project_assistant,
-)
-from .services.report_generator import (
-    ReportGenerationError,
-    ReportInputError,
-    generate_report_bundle,
-)
-from .services.training_jobs import (
-    ActiveTrainingJobError,
-    TrainingJobCancelled,
-    TrainingJobError,
-    TrainingJobManager,
-    TrainingJobNotFoundError,
-    TrainingJobQueueFullError,
-)
-from .services.model_registry import (
-    DuplicateModelVersionError,
-    InvalidModelIdentifierError,
-    ModelArtifactError,
-    ModelRegistry,
-    ModelVersionNotFoundError,
-)
-from .services.project_store import (
-    InvalidProjectIdError,
-    ProjectAlreadyExistsError,
-    ProjectCapacityError,
-    ProjectNotFoundError,
-    ProjectRepository,
-    ProjectStoreError,
-)
+try:
+    from .schemas import AssistantChatRequest, PredictionRequest, TrainingJobRequest
+    from .services.dataset_profiler import profile_dataset, check_class_imbalance
+    from .services.ml_engine_enhanced import WorkflowCancelled, run_enhanced_workflow
+    from .services.eda_generator import generate_comprehensive_eda
+    from .services.ai_advisor import get_ai_advisor
+    from .services.ai_assistant import (
+        AssistantUnavailable,
+        assistant_status,
+        get_project_assistant,
+    )
+    from .services.report_generator import (
+        ReportGenerationError,
+        ReportInputError,
+        generate_report_bundle,
+    )
+    from .services.training_jobs import (
+        ActiveTrainingJobError,
+        TrainingJobCancelled,
+        TrainingJobError,
+        TrainingJobManager,
+        TrainingJobNotFoundError,
+        TrainingJobQueueFullError,
+    )
+    from .services.model_registry import (
+        DuplicateModelVersionError,
+        InvalidModelIdentifierError,
+        ModelArtifactError,
+        ModelRegistry,
+        ModelVersionNotFoundError,
+    )
+    from .services.project_store import (
+        InvalidProjectIdError,
+        ProjectAlreadyExistsError,
+        ProjectCapacityError,
+        ProjectNotFoundError,
+        ProjectRepository,
+        ProjectStoreError,
+    )
+except (ImportError, ValueError):
+    from schemas import AssistantChatRequest, PredictionRequest, TrainingJobRequest
+    from services.dataset_profiler import profile_dataset, check_class_imbalance
+    from services.ml_engine_enhanced import WorkflowCancelled, run_enhanced_workflow
+    from services.eda_generator import generate_comprehensive_eda
+    from services.ai_advisor import get_ai_advisor
+    from services.ai_assistant import (
+        AssistantUnavailable,
+        assistant_status,
+        get_project_assistant,
+    )
+    from services.report_generator import (
+        ReportGenerationError,
+        ReportInputError,
+        generate_report_bundle,
+    )
+    from services.training_jobs import (
+        ActiveTrainingJobError,
+        TrainingJobCancelled,
+        TrainingJobError,
+        TrainingJobManager,
+        TrainingJobNotFoundError,
+        TrainingJobQueueFullError,
+    )
+    from services.model_registry import (
+        DuplicateModelVersionError,
+        InvalidModelIdentifierError,
+        ModelArtifactError,
+        ModelRegistry,
+        ModelVersionNotFoundError,
+    )
+    from services.project_store import (
+        InvalidProjectIdError,
+        ProjectAlreadyExistsError,
+        ProjectCapacityError,
+        ProjectNotFoundError,
+        ProjectRepository,
+        ProjectStoreError,
+    )
 
 # Load environment variables
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+CURRENT_FILE = Path(__file__).resolve()
+if (CURRENT_FILE.parent / "frontend").is_dir():
+    PROJECT_ROOT = CURRENT_FILE.parent
+elif (CURRENT_FILE.parent.parent / "frontend").is_dir():
+    PROJECT_ROOT = CURRENT_FILE.parent.parent
+else:
+    PROJECT_ROOT = Path(os.getcwd())
+
 load_dotenv(PROJECT_ROOT / ".env")
 artifact_logger = logging.getLogger("aivoraml.artifacts")
 
@@ -148,8 +195,10 @@ def _aivoraml_setting(name: str, default: str = "") -> str:
     )
 
 
+is_vercel = bool(os.environ.get("VERCEL") or os.environ.get("VERCEL_ENV"))
+default_data_dir = "/tmp/storage" if is_vercel else str(PROJECT_ROOT / "storage")
 DATA_DIR = Path(
-    _aivoraml_setting("DATA_DIR", str(PROJECT_ROOT / "storage"))
+    _aivoraml_setting("DATA_DIR", default_data_dir)
 ).resolve()
 WORKSPACE_FILE = DATA_DIR / "workspace.joblib"
 PREDICTIONS_FILE = DATA_DIR / "predictions.json"
@@ -650,9 +699,7 @@ app = FastAPI(
     redoc_url=None,
 )
 
-trusted_hosts = ["127.0.0.1", "localhost", "testserver", "[::1]"]
-if _aivoraml_setting("ALLOW_NONLOCAL_HOSTS").lower() in {"1", "true", "yes"}:
-    trusted_hosts = ["*"]
+trusted_hosts = ["*"] if is_vercel or _aivoraml_setting("ALLOW_NONLOCAL_HOSTS").lower() in {"1", "true", "yes"} else ["127.0.0.1", "localhost", "testserver", "[::1]"]
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=trusted_hosts)
 
 
@@ -666,6 +713,7 @@ async def add_request_context_and_security_headers(request: Request, call_next):
     origin_host = urlsplit(origin).hostname if origin else None
     if (
         origin
+        and not is_vercel
         and origin_host not in {"127.0.0.1", "localhost", "::1", "testserver"}
         and _aivoraml_setting("ALLOW_NONLOCAL_ORIGINS").lower()
         not in {"1", "true", "yes"}
@@ -699,6 +747,11 @@ async def add_request_context_and_security_headers(request: Request, call_next):
     return response
 
 STATIC_DIR = PROJECT_ROOT / "frontend"
+if not STATIC_DIR.is_dir():
+    for candidate in [CURRENT_FILE.parent.parent / "frontend", CURRENT_FILE.parent / "frontend", Path(os.getcwd()) / "frontend"]:
+        if candidate.is_dir():
+            STATIC_DIR = candidate
+            break
 
 
 # ── Routes ───────────────────────────────────────────────────────────────────
